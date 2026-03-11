@@ -21,4 +21,19 @@ Epoch-wise performance plotting
 
 The implementation is designed to work with the EX-DARK dataset.
 
+Dataset link:
+
+https://www.kaggle.com/datasets/washingtongold/exdark-dataset
+
+Datase Split
+
+Split	#       Images	% of Dataset
+
+Training	       5155	     70%
+
+Validation	     1104	     15%
+
+Test	           1104	     15%
+
+
 Each class folder contains dark scene images belonging to different object categories.
