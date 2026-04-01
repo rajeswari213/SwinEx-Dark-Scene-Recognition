@@ -37,3 +37,26 @@ Test	           1104	     15%
 
 
 Each class folder contains dark scene images belonging to different object categories.
+
+## How to Run
+
+Clone the repository:
+
+git clone https://github.com/rajeswari213/SwinEx-Dark-Scene-Recognition.git
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Run the code:
+
+python main.py
+
+## Hardware and Software Environment
+
+Processor: Intel Core i7 
+GPU: NVIDIA RTX 3060 
+RAM: 16 GB
+OS: Windows 11 
+Python: 3.10
+Framework: PyTorch 2.2
