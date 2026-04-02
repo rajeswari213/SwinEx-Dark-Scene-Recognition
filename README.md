@@ -60,3 +60,54 @@ RAM: 16 GB
 OS: Windows 11 
 Python: 3.10
 Framework: PyTorch 2.2
+
+
+# Evaluation Protocol for SwinEx Dark Scene Recognition
+
+## 1. Dataset Preparation
+- Download EX-DARK dataset from Kaggle
+- Organize as: dataset/
+  ├── train/ (class folders)
+  ├── val/
+  └── test/
+- Verify class distribution (12 classes minimum)
+
+## 2. Preprocessing Pipeline
+- Apply Retinex enhancement to all test images
+- Normalize images to [0,1] range
+- Resize to consistent dimensions (e.g., 384x384)
+
+## 3. Metrics Calculation
+Compute the following metrics per image, then average:
+
+| Metric | Description | Range | Higher is Better |
+|--------|-------------|-------|------------------|
+| PSNR   | Peak Signal-to-Noise Ratio | 0-∞ dB | ✓ |
+| SSIM   | Structural Similarity | 0-1 | ✓ |
+| FSIM   | Feature Similarity | 0-1 | ✓ |
+| GMSD   | Gradient Magnitude Similarity Deviation | 0-1 | ✗ (lower better) |
+| SAM    | Spectral Angle Mapper | 0°-90° | ✗ |
+| UQI    | Universal Quality Index | -1 to 1 | ✓ |
+| RMSE   | Root Mean Square Error | 0-∞ | ✗ |
+| MAE    | Mean Absolute Error | 0-∞ | ✗ |
+
+## 4. Evaluation Steps
+
+```python
+# evaluation.py
+import torch
+from metrics import calculate_all_metrics
+
+def evaluate_model(model, test_loader, config):
+    results = {metric: [] for metric in config['metrics']}
+    
+    for images, targets in test_loader:
+        enhanced = model(images)
+        metrics = calculate_all_metrics(enhanced, targets)
+        
+        for metric_name, value in metrics.items():
+            results[metric_name].append(value)
+    
+    # Average results
+    final_results = {k: np.mean(v) for k, v in results.items()}
+    return final_results
