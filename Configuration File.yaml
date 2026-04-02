@@ -1,0 +1,28 @@
+# SwinEx Configuration File
+data:
+  dataset_path: "path/to/EX-DARK"
+  output_dir: "./results"
+  split_ratio: [0.7, 0.15, 0.15]  # train/val/test
+
+preprocessing:
+  method: "retinex"  # Options: retinex, histogram, zero_dce
+  sigma: [15, 80, 250]  # Retinex parameters
+  gain: 128
+  offset: 128
+
+model:
+  name: "SwinEx"
+  backbone: "swin_transformer"
+  pretrained: True
+  checkpoint: "checkpoints/best_model.pth"
+
+evaluation:
+  metrics: ["PSNR", "SSIM", "FSIM", "GMSD", "SAM", "UQI", "RMSE", "MAE"]
+  batch_size: 32
+  num_workers: 4
+
+training:
+  epochs: 50
+  learning_rate: 0.0001
+  optimizer: "adam"
+  loss_function: "combined"  # L1 + perceptual + SSIM
